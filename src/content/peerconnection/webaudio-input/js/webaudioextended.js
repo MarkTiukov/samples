@@ -18,9 +18,6 @@ function WebAudioExtended() {
 }
 
 WebAudioExtended.prototype.start = async function() {
-  // this.filter = this.context.createBiquadFilter();
-  // this.filter.type = 'highpass';
-  // this.filter.frequency.setValueAtTime(1500, this.context.currentTime + 1);
   await this.context.audioWorklet.addModule('\\src\\content\\peerconnection\\webaudio-input\\js\\rnnoise-processor.js');
   this.filter = new AudioWorkletNode(this.context, 'rnnoise-processor');
 };
