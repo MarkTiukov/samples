@@ -1,10 +1,25 @@
+'use strict';
+
+// import { Rnnoise } from "/@shiguredo/rnnoise-wasm";
+import { Rnnoise } from "/node_modules/@shiguredo/rnnoise-wasm/dist/rnnoise.mjs";
+
 class RnnoiseProcessor extends AudioWorkletProcessor {
 
-    whatToDo = 'white noise';
+    whatToDo = 'rnnoise';
+
+    rnnoise;
+    denoisedState;
+
 
     constructor() {
         super();
         console.log("creating rnnoise module");  
+        
+        Rnnoise.load().then((rnnoise) => {
+            console.log("callback");
+            this.rnnoise = rnnoise;
+            this.denoisedState = this.rnnoise.createDenoiseState();
+        });
     }
 
     generateWhiteNoise(output) {
@@ -20,6 +35,14 @@ class RnnoiseProcessor extends AudioWorkletProcessor {
             output[0][i] = input[0][i];
         }
     }
+
+    processWithRnnoise(input, output) {
+        // for (let i = 0; i < output[0].length; i++) {
+        //     output[0][i] = input[0][i];
+        //     this.rnnoise.processFrame(output[0][i]);
+        // }
+        console.log(`done`);
+    }
     
     process(inputs, outputs, parameters) {
         console.log(`hello from rnnoise: ${inputs.length}, ${outputs.length}`);
@@ -28,7 +51,7 @@ class RnnoiseProcessor extends AudioWorkletProcessor {
 
         switch (this.whatToDo) {
             case 'rnnoise':
-                // pass through rnnoise
+                this.processWithRnnoise(input, output);
                 break;
             case 'nothing':
                 this.letThrough(input, output);
