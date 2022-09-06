@@ -34,7 +34,6 @@ class RnnoiseProcessor extends AudioWorkletProcessor {
             throw Error('');
         }
         this.denoise_state = this.rnnModule._rnnoise_create();
-        console.log("created rnnoise module");
     }
 
     generateWhiteNoise(output) {
@@ -71,29 +70,9 @@ class RnnoiseProcessor extends AudioWorkletProcessor {
         }
 
         console.log(output[0]);
-
-        // let inArray = this.rnnModule._malloc(RNNOISE_BUFFER_SIZE);
-        // if (this.rnnModule.wasmMemory == undefined) {
-        //     console.log(`wasm memorry is undefinied`);
-        // }
-        // let wasmMem = new Float32Array(this.rnnModule.wasmMemory.buffer, inArray, RNNOISE_SAMPLE_LENGTH);
-        // wasmMem.set(input[0]);
-
-        // let bufferIn = new Float32Array(480);
-        // let bufferOut = new Float32Array(480);
-        // bufferIn.set(input[0]);
-
-        // this.rnnoiseWasmModule._rnnoise_process_frame(
-        //     this.denoise_state, bufferOut, bufferIn);
-        // console.log(`buffer output length == ${bufferOut.length}, output length == ${output[0].length}`);
-        // output[0].set(bufferOut.slice(0, 128));
-        // console.log(bufferOut);
-        // output[0].set(input[0], 0, 128);
-
     }
     
     process(inputs, outputs, parameters) {
-        // console.log(`hello from rnnoise: ${inputs.length}, ${outputs.length}`);
         const input = inputs[0];
         const output = outputs[0];
 
