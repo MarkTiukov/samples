@@ -31,7 +31,7 @@ class RnnoiseProcessor extends AudioWorkletProcessor {
         this.inputBufferF32Index = this.inputBuffer >> 2;
         if (!this.inputBuffer) {
             console.log("Failed to create wasm input memory buffer!");
-            throw Error('');
+            throw Error('Failed to create wasm input memory buffer!');
         }
         this.denoise_state = this.rnnModule._rnnoise_create();
     }
@@ -69,7 +69,7 @@ class RnnoiseProcessor extends AudioWorkletProcessor {
             output[0][i] = this.rnnModule.HEAPF32[this.inputBufferF32Index + i];
         }
 
-        console.log(output[0]);
+        // console.log(output[0]);
     }
     
     process(inputs, outputs, parameters) {
