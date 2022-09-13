@@ -10,10 +10,12 @@
 
 // WebAudioExtended helper class which takes care of the WebAudio related parts.
 
+const sampleRate = 48000;
+
 function WebAudioExtended() {
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
   /* global AudioContext */
-  this.context = new AudioContext();
+  this.context = new AudioContext({ sampleRate });
   this.soundBuffer = null;
 }
 

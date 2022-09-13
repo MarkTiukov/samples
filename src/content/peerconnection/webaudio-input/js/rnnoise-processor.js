@@ -68,8 +68,6 @@ class RnnoiseProcessor extends AudioWorkletProcessor {
         for (let i = 0; i < input[0].length; i++) {
             output[0][i] = this.rnnModule.HEAPF32[this.inputBufferF32Index + i];
         }
-
-        // console.log(output[0]);
     }
     
     process(inputs, outputs, parameters) {
