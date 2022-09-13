@@ -29,8 +29,8 @@ let pc2;
 const webAudio = new WebAudioExtended();
 webAudio.loadSound('audio/Shamisen-C4.wav');
 
-function start() {
-  webAudio.start();
+async function start() {
+  await webAudio.start();
   const constraints = {
     audio: true,
     video: false
@@ -44,6 +44,7 @@ function start() {
 }
 
 function stop() {
+  console.log("calling `stop`");
   webAudio.stop();
   pc1.close();
   pc2.close();
