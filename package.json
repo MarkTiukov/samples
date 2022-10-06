@@ -42,6 +42,6 @@
     "travis-multirunner": "^4.6.0"
   },
   "dependencies": {
-    "@jitsi/rnnoise-wasm": "github:jitsi/rnnoise-wasm#master"
+    "@jitsi/rnnoise-wasm": "github:MarkTiukov/rnnoise-wasm#master"
   }
 }
