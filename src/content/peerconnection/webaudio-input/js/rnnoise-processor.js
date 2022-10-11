@@ -50,7 +50,14 @@ class RnnoiseProcessor extends AudioWorkletProcessor {
         }
     }
 
+    passNothing(output) {
+        for (let i = 0; i < output[0].length; i++) {
+            output[0][i] = input[0][i];
+        }
+    }
+
     processWithRnnoise(input, output) {
+        console.log("processing");
         for (let i = 0; i < input[0].length; i++) {
             this.rnnModule.HEAPF32[this.inputBufferF32Index + i] = input[0][i];
         }
@@ -78,8 +85,11 @@ class RnnoiseProcessor extends AudioWorkletProcessor {
             case 'rnnoise':
                 this.processWithRnnoise(input, output);
                 break;
-            case 'nothing':
+            case 'do nothing':
                 this.letThrough(input, output);
+                break;
+            case 'nothing':
+                this.passNothing(output);
                 break;
             case 'white noise':    
                 this.generateWhiteNoise(output);
@@ -88,7 +98,7 @@ class RnnoiseProcessor extends AudioWorkletProcessor {
                 // throw exception
                 break;
         }
-
+        console.log(`${output}`)
         return true; // everything is ok, keep alive
     }
 
