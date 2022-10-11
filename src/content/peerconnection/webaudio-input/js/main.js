@@ -56,12 +56,21 @@ function stop() {
   localStream.getTracks().forEach(track => track.stop());
 }
 
-function handleSuccess(stream) {
+async function handleSuccess(stream) {
   renderLocallyCheckbox.disabled = false;
-  const audioTracks = stream.getAudioTracks();
+
+  const speech = new Audio('audio/mono_speech.wav');
+  console.log("capturing stream");
+  const speechStream = speech.captureStream();
+  console.log("captured stream");
+  await speech.play();
+
+  console.log("played everying");
+  const audioTracks = speechStream.getAudioTracks();
+  console.log("got tracks");
   if (audioTracks.length === 1) {
     console.log('Got one audio track:', audioTracks);
-    const filteredStream = webAudio.applyFilter(stream);
+    const filteredStream = webAudio.applyFilter(speechStream);
     const servers = null;
     pc1 = new RTCPeerConnection(servers); // eslint-disable-line new-cap
     console.log('Created local peer connection object pc1');
@@ -73,15 +82,16 @@ function handleSuccess(stream) {
     filteredStream.getTracks().forEach(track => pc1.addTrack(track, filteredStream));
     pc1.createOffer().then(gotDescription1).catch(error => console.log(`createOffer failed: ${error}`));
 
-    stream.oninactive = () => {
-      console.log('Stream inactive:', stream);
+    speechStream.oninactive = () => {
+      console.log('Stream inactive:', speechStream);
       startButton.disabled = false;
       stopButton.disabled = true;
     };
 
-    localStream = stream;
+    localStream = speechStream;
   } else {
     logError('The media stream contains an invalid number of audio tracks.');
+    logError(`it contains ${audioTracks.length}`);
     stream.getTracks().forEach(track => track.stop());
   }
 }
