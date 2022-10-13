@@ -1,6 +1,14 @@
 'use strict';
 
+// import { performance } from "/node_modules/universal-perf-hooks/dist/index.js";
+// import { performance } from "universal-perf-hooks";
+
 import createRNNWasmModuleSync from "/node_modules/@jitsi/rnnoise-wasm/dist/rnnoise-sync.js";
+
+// import { createRequire } from "/node_modules/module/dist/index.js";
+// const require = createRequire(import.meta.url);
+
+// const { performance } = require('universal-perf-hooks');
 
 const RNNOISE_SAMPLE_LENGTH = 480;
 
@@ -22,6 +30,8 @@ class RnnoiseProcessor extends AudioWorkletProcessor {
 
     rnnModule;
 
+    timeWorking;
+
     constructor() {
         super();
         console.log("creating rnnoise module");
@@ -34,6 +44,7 @@ class RnnoiseProcessor extends AudioWorkletProcessor {
             throw Error('Failed to create wasm input memory buffer!');
         }
         this.denoise_state = this.rnnModule._rnnoise_create();
+        this.timeWorking = 0;
     }
 
     generateWhiteNoise(output) {
@@ -66,11 +77,16 @@ class RnnoiseProcessor extends AudioWorkletProcessor {
             this.rnnModule.HEAPF32[this.inputBufferF32Index + i] = 0;
         }
 
+        const startTime = new Date().getTime();
+
         this.rnnModule._rnnoise_process_frame(
             this.denoise_state,
             this.inputBuffer,
             this.inputBuffer
         );
+
+        const endTime = new Date().getTime();
+        this.timeWorking += endTime - startTime;
 
         for (let i = 0; i < input[0].length; i++) {
             output[0][i] = this.rnnModule.HEAPF32[this.inputBufferF32Index + i];
@@ -80,10 +96,10 @@ class RnnoiseProcessor extends AudioWorkletProcessor {
     process(inputs, outputs, parameters) {
         const input = inputs[0];
         const output = outputs[0];
-
         switch (this.whatToDo) {
             case 'rnnoise':
                 this.processWithRnnoise(input, output);
+                console.log(`time processing: ${this.timeWorking}`);
                 break;
             case 'do nothing':
                 this.letThrough(input, output);
@@ -98,7 +114,6 @@ class RnnoiseProcessor extends AudioWorkletProcessor {
                 // throw exception
                 break;
         }
-        console.log(`${output}`)
         return true; // everything is ok, keep alive
     }
 
