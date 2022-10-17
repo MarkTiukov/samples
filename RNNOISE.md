@@ -26,4 +26,4 @@ new AudioWorkletNode(this.context, 'rnnoise-processor');
 this.filter.connect(this.peer);
 ```
 
-[Пример находится тут](src\content\peerconnection\webaudio-input\js\webaudioextended.js)
+[Пример находится тут](./src/content/peerconnection/webaudio-input/js/webaudioextended.js)
