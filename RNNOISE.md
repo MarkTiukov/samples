@@ -27,3 +27,10 @@ this.filter.connect(this.peer);
 ```
 
 [Пример находится тут](./src/content/peerconnection/webaudio-input/js/webaudioextended.js)
+
+## Сборка WASM модуля оптимизированной версии rnnoise
+
+1. Клонируем [репозиторий](https://github.com/MarkTiukov/rnnoise-wasm) с аргументом `--recurse-submodules`
+1. Устанавливаем докер и необходимый [докер-образ](https://hub.docker.com/r/trzeci/emscripten/), а также пакетный менеджер `npm`
+1. В папке `rnnoise` необходимо переключиться на ветку __optimized__: `git checkout optimized`
+1. Из корня репозитория запускаем `npm run build`
