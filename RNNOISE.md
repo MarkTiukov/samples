@@ -6,7 +6,7 @@
 
 ## Фильтр
 
-Сама обработка аудио осуществляется реализацией [аудио ноды](https://developer.mozilla.org/en-US/docs/Web/API/AudioWorkletNode), как это сделано [тут](src\content\peerconnection\webaudio-input\js\rnnoise-processor.js)
+Сама обработка аудио осуществляется реализацией [аудио ноды](https://developer.mozilla.org/en-US/docs/Web/API/AudioWorkletNode), как это сделано [тут](./src/content/peerconnection/webaudio-input/js/rnnoise-processor.js)
 
 Пояснения:
 
