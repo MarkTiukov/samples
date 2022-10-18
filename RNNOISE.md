@@ -30,7 +30,7 @@ this.filter.connect(this.peer);
 
 ## Сборка WASM модуля оптимизированной версии rnnoise
 
-1. Клонируем [репозиторий](https://github.com/MarkTiukov/rnnoise-wasm) с аргументом `--recurse-submodules`
+1. Клонируем [репозиторий](https://github.com/MarkTiukov/rnnoise-wasm) с аргументом `--recurse-submodules`. Данный репозиторий содержит 1 сабмодуль -- это сама библиотечка rnnoise, с веткой *optimize*, в которой находится оптимизированная версия и адаптированная под сборку с gcc, а не с clang компилятором
 1. Устанавливаем докер и необходимый [докер-образ](https://hub.docker.com/r/trzeci/emscripten/), а также пакетный менеджер `npm`
-1. В папке `rnnoise` необходимо переключиться на ветку __optimized__: `git checkout optimized`
+1. В папке `rnnoise` необходимо переключиться на ветку __optimize__: `git checkout optimize`
 1. Из корня репозитория запускаем `npm run build`
